@@ -58,17 +58,28 @@ There are some key points to take into consideration when using this deployment 
 
 Folder Structure:
 
-`
-	.                   // . is /home/<PROJECT_NAME>/
-	|-- services
-	|   |-- apache      //home for apache conf
-	|   `-- supervisor  //home for supervisor conf
-	`-- www
-		|-- staging
-			|-- code_root  //actual project code lives here
-			|-- log        //*all* project related logs go here
-			`-- python_env  //home for the virtualenv for this project
-`
+> .	**is /home/<PROJECT_NAME>/**
+
+> ├── services
+
+> │   ├── apache      **home for apache conf**
+
+> │   └── supervisor  **home for supervisor conf**
+
+> └── www
+
+>     ├── staging
+
+>     │   ├── code_root  **actual project code lives here**
+
+>     │   ├── log        **all project related logs go here**
+
+>     │   └── python_env  **//home for the virtualenv for this project**
+
+
+
+
+
 
 The services confs are usually symlinked to the correct place in-system.  For example, the apache conf located in /home/myproject/services/apache/myproject_apache.conf will be symlinked to the /etc/apache2/sites-enabled/ directory.
 
