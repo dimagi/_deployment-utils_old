@@ -4,10 +4,11 @@ Deployment Scripts
 Assumptions about your codebase and server
 ==========================================
 These scripts assume the following facts about your project and deployment:
-- You are hosting the code you wish to use in the deployment on a git repo accessible from the server
-- The server is running Ubuntu (preferably 10.10 but should work with most of the newer flavours)
-- You have an account that can ssh into the server with sudo powers
-- This is a lone deployment. Restarts to Apache/other procs can happen and shouldn't affect other unrelated deployments (i.e. the fabric script will restart apache server/supervisor procs at will)
+
+* You are hosting the code you wish to use in the deployment on a git repo accessible from the server
+* The server is running Ubuntu (preferably 10.10 but should work with most of the newer flavours)
+* You have an account that can ssh into the server with sudo powers
+* This is a lone deployment. Restarts to Apache/other procs can happen and shouldn't affect other unrelated deployments (i.e. the fabric script will restart apache server/supervisor procs at will)
 
 Requirements
 =============
@@ -23,6 +24,7 @@ These scripts should be checked out to a seperate (from your development repo) f
 That said, you should be able to do your first deployment with a minimal amount of editing to the below files.
 
 List of files
+
 * **fabfile.py** - The fabric file responsible for initial setup and deployment activities.  Should be configured to hold the relevant IP, hostname, usernames and branches necessary for deployment.
 * **services/templates/apache.conf** - The apache template used for hosting staticfiles and proxying traffic from port 80 to/from the gunicorn/cpserver process
 * **services/templates/supervisord.conf** - The supervisor template that monitors the updtime/status of the underlying service processes (gunicorn, celery, router, etc)
@@ -54,7 +56,9 @@ Server Deployment Structure
 ===========================
 There are some key points to take into consideration when using this deployment bundle.  The fabric file aims to deploy the Django project in a standardized way that is the same across machines/projects in order to allow anyone from Dimagi familiar with the process to dive in immediately and diagnose a problem should an issue arise.
 
-Folder Structure
+Folder Structure:
+
+`
 	.                   // . is /home/<PROJECT_NAME>/
 	|-- services
 	|   |-- apache      //home for apache conf
@@ -64,6 +68,7 @@ Folder Structure
 			|-- code_root  //actual project code lives here
 			|-- log        //*all* project related logs go here
 			`-- python_env  //home for the virtualenv for this project
+`
 
 The services confs are usually symlinked to the correct place in-system.  For example, the apache conf located in /home/myproject/services/apache/myproject_apache.conf will be symlinked to the /etc/apache2/sites-enabled/ directory.
 
