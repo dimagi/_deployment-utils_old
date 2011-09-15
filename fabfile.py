@@ -283,27 +283,31 @@ def collectstatic():
 
 def reset_local_db():
     """ Reset local database from remote host """
-    require('code_root', provided_by=('production', 'staging'))
-    if env.environment == 'production':
-        utils.abort('Local DB reset is for staging environment only')
-    question = 'Are you sure you want to reset your local ' \
-               'database with the %(environment)s database?' % env
-    sys.path.append('.')
-    if not console.confirm(question, default=False):
-        utils.abort('Local database reset aborted.')
-    if env.environment == 'staging':
-        from afrims.settings_staging import DATABASES as remote
-    else:
-        from afrims.settings_production import DATABASES as remote
-    from afrims.localsettings import DATABASES as loc
-    local_db = loc['default']['NAME']
-    remote_db = remote['default']['NAME']
-    with settings(warn_only=True):
-        local('dropdb %s' % local_db)
-    local('createdb %s' % local_db)
-    host = '%s@%s' % (env.user, env.hosts[0])
-    local('ssh -C %s sudo -u aremind pg_dump -Ox %s | psql %s' % (host, remote_db, local_db))
-    local('ssh -C %s sudo -u afrims pg_dump -Ox %s | psql %s' % (host, remote_db, local_db))
+    raise NotImplementedError
+
+#   Here is some example code for Doing a local_db reset.  Use at your own risk.
+
+#    require('code_root', provided_by=('production', 'staging'))
+#    if env.environment == 'production':
+#        utils.abort('Local DB reset is for staging environment only')
+#    question = 'Are you sure you want to reset your local ' \
+#               'database with the %(environment)s database?' % env
+#    sys.path.append('.')
+#    if not console.confirm(question, default=False):
+#        utils.abort('Local database reset aborted.')
+#    if env.environment == 'staging':
+#        from afrims.settings_staging import DATABASES as remote
+#    else:
+#        from afrims.settings_production import DATABASES as remote
+#    from afrims.localsettings import DATABASES as loc
+#    local_db = loc['default']['NAME']
+#    remote_db = remote['default']['NAME']
+#    with settings(warn_only=True):
+#        local('dropdb %s' % local_db)
+#    local('createdb %s' % local_db)
+#    host = '%s@%s' % (env.user, env.hosts[0])
+#    local('ssh -C %s sudo -u aremind pg_dump -Ox %s | psql %s' % (host, remote_db, local_db))
+#    local('ssh -C %s sudo -u afrims pg_dump -Ox %s | psql %s' % (host, remote_db, local_db))
 
 def upload_supervisor_conf():
     """Upload and link Supervisor configuration from the template."""
