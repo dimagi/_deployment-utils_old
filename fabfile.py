@@ -187,7 +187,7 @@ def update_requirements():
     requirements = posixpath.join(env.code_root, 'requirements')
     with cd(requirements):
         cmd = ['pip install']
-        cmd += ['-q -E %(virtualenv_root)s' % env]
+        cmd += ['-E %(virtualenv_root)s' % env]
         cmd += ['--requirement %s' % posixpath.join(requirements, 'apps.txt')]
         sudo(' '.join(cmd), user=env.sudo_user)
 
@@ -320,6 +320,13 @@ def upload_supervisor_conf():
     run('sudo chgrp -R www-data %s' % destination)
     run('sudo chmod -R g+w %s' % destination)
     run('sudo -u %s mv -f %s %s' % (env.sudo_user, destination, enabled))
+
+    #update the line in the supervisord config file that points to our supervisor.conf
+    #remove the line if it already exists
+    tmp = posixpath.join('/','var','tmp','supervisord.conf')
+    sudo('sed "/$%s/d" /etc/supervisor/supervisord.conf > %s' % (env.services.replace('/','\/') , tmp))
+    sudo('echo "files = %s/supervisor/*.conf" >> %s' % (env.services, tmp) )
+    sudo('mv /var/tmp/supervisord.conf /etc/supervisor/supervisord.conf')
     _supervisor_command('update')
 
 def upload_apache_conf():
