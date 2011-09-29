@@ -70,7 +70,7 @@ def staging():
     env.server_port = '9002'
     env.server_name = 'project-staging.dimagi.com'
     env.hosts = ['204.232.206.181']
-    env.settings = '%(project)s.settings' % env
+    env.settings = '%(project)s.localsettings' % env
     env.db = '%s_%s' % (env.project, env.environment)
     _setup_path()
 
