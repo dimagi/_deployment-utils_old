@@ -39,7 +39,12 @@ Usage
 (For a full list of commands that can be performed by the fabric script, run fab -l from the same location as the fabfile.py)
 
 Initial deployment on a clean (untouched) machine:
-    fab production setup_server bootstrap deploy
+    fab production setup_server bootstrap 
+	
+**NOTE**:  You will need to manually create the DB user for this project and/or set it's password.
+**NOTE**:  You need to manually create the localsettings.py file in the code_root folder.   The template is usually called localsettings.py.example and is normally localted in code_root/<project_name>/localsettings.py.example.  Copy that file over to code_root/<project_name>/localsettings.py and edit accordingly (pay attention to filling in the DB username and password here!)
+	
+	deploy
 
 Standard deployment:
     fab production deploy
