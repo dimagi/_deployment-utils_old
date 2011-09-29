@@ -239,7 +239,7 @@ def netstat_plnt():
 def stop():
     """ stop server and celery on remote host """
     require('environment', provided_by=('staging', 'demo', 'production'))
-    _supervisor_command('stop %(project)s-%(environment)s:*' % env)
+    _supervisor_command('stop %(environment)s:*' % env)
 
 
 def start():
