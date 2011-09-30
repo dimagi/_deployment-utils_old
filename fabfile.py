@@ -186,7 +186,7 @@ def update_requirements():
     require('code_root', provided_by=('staging', 'production'))
     requirements = posixpath.join(env.code_root, 'requirements')
     with cd(requirements):
-        cmd = ['pip install']
+        cmd = ['sudo -u %s -H pip install' % env.sudo_user]
         cmd += ['-E %(virtualenv_root)s' % env]
         cmd += ['--requirement %s' % posixpath.join(requirements, 'apps.txt')]
         sudo(' '.join(cmd), user=env.sudo_user)
